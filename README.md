@@ -10,7 +10,7 @@ This is a command line utility for [Cordova Hot Code Push Plugin](https://github
 Main features are:
 - Automatically generate configuration files, required for Hot Code Push plugin (`chcp.json` and `chcp.manifest`).
 - Run local server in order to detect any changes you make in your web project and instantly upload them on the devices.
-- Deploy your web project on the external servers with the single command. For now it only supports deployment on the Amazon servers. More deployment targets will be added later.
+- Deploy your web project on the external servers with the single command. For now it only supports deployment on the QiNiu servers. More deployment targets will be added later.
 
 ## Documentation
 
@@ -76,8 +76,7 @@ Initialization command for CLI client. Generates default application configurati
 
 When executed - you will be asked to fill in some project preferences from the command line:
 - `Project name` - your current project name. **Required**.
-- `Amazon S3 Bucket name` - name of the S3 Bucket on the Amazon. **Required for deployment**, can be skipped in other cases.
-- `Amazon S3 region` - Amazon S3 region. **Required for deployment**, can be skipped in other cases.
+- `Qiniu Bucket name` - name of the Qiniu Bucket. **Required for deployment**, can be skipped in other cases.
 - `iOS app identifier` - applications id on the App Store. Used to redirect user to the applications page on the store.
 - `Android app identifier` - applications package name by which we reference app on the Google Play.
 - `Update method` - when to perform the update. Supports three keys:
@@ -89,8 +88,7 @@ For example, execute `init` in your project root folder and fill preferences as 
 ```
 Running init
 Please provide: Enter project name (required):  TestProject
-Please provide: Amazon S3 Bucket name (required for cordova-hcp deploy):  chcp-test
-Please provide: Amazon S3 region (required for cordova-hcp deploy):  (us-east-1) eu-west-1
+Please provide: Qiniu Bucket name (required for cordova-hcp deploy):  chcp-test
 Please provide: IOS app identifier:  id123456789
 Please provide: Android app identifier:  com.example.chcp.testproject
 Please provide: Update method (required):  (resume) start
@@ -103,12 +101,11 @@ As a result, content of the `cordova-hcp.json` file will be:
 ```json
 {
   "name": "TestProject",
-  "s3bucket": "chcp-test",
-  "s3region": "eu-west-1",
+  "bucket": "test",
   "ios_identifier": "id123456789",
   "android_identifier": "com.example.chcp.testproject",
   "update": "start",
-  "content_url": "https://s3-eu-west-1.amazonaws.com/chcp-test"
+  "content_url": "https://youdomain/test"
 }
 ```
 
@@ -211,13 +208,13 @@ How it works:
 cordova-hcp login
 ```
 
-Command requests and saves login credentials, using which deployment on the Amazon servers is performed. You need to run it before doing any deployment. Otherwise, `cordova-hcp` won't now how to login to the Amazon.
+Command requests and saves login credentials, using which deployment on the QiNiu servers is performed. You need to run it before doing any deployment. Otherwise, `cordova-hcp` won't now how to login to the QiNiu.
 
-When executed, you will be asked to enter your Amazon `Access Key Id` and `Access Key Secret`:
+When executed, you will be asked to enter your QiNiu `Access Key Id` and `Access Key Secret`:
 ```
 Running login
-Please provide: Amazon Access Key Id:  YOUR_ACCESS_KEY_ID
-Please provide: Amazon Secret Access Key:  YOUR_ACCESS_KEY_SECRET
+Please provide: Qiniu Access Key Id:  YOUR_ACCESS_KEY_ID
+Please provide: Qiniu Secret Access Key:  YOUR_ACCESS_KEY_SECRET
 ```
 
 Entered credentials will be placed in the `.chcplogin` file:
@@ -228,7 +225,7 @@ Entered credentials will be placed in the `.chcplogin` file:
 }
 ```
 
-From this point you are ready to deploy your project on Amazon server.
+From this point you are ready to deploy your project on QiNiu server.
 
 **Advise:** don't forget to put `.chcplogin` file in the ignore list of your version control system, if any is used. For git you can do this by executing:
 ```sh
@@ -244,7 +241,7 @@ cordova-hcp deploy [www_directory]
 where:
 - `[www_directory]` - path to the directory with your web project. If not specified - `www` is used.
 
-Command uploads your Cordova's web project files on the Amazon server. Can be executed only after `init` and `login` commands.
+Command uploads your Cordova's web project files on the QiNiu server. Can be executed only after `init` and `login` commands.
 
 When executed, you will see the following in the console:
 ```
@@ -255,14 +252,14 @@ Config { name: 'TestProject',
   ios_identifier: 'id123456789',
   android_identifier: 'com.example.chcp.testproject',
   update: 'start',
-  content_url: 'https://s3-eu-west-1.amazonaws.com/chcp-test',
+  content_url: 'https://s3-eu-west-1.QiNiuaws.com/chcp-test',
   release: '2015.09.07-13.02.28' }
 Build 2015.09.07-13.02.28 created in /Cordova/TestProject/www
 Deploy started
 Deploy done
 ```
 
-As a result - all files from your web directory are uploaded to the Amazon server, which was defined on the `init` step.
+As a result - all files from your web directory are uploaded to the QiNiu server, which was defined on the `init` step.
 
 ### Default configuration file
 
