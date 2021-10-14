@@ -72,7 +72,7 @@
 		files.on('data', (entry) => {
 				//console.log(entry)
 				const fullPath = entry.fullPath;
-				var key = config.prefix + entry.path
+				var key = config.prefix + entry.path.replace(/\\/g,'/')
 				var options = {
 					scope: `${config.bucket}:${key}`
 				};
