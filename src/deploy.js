@@ -72,7 +72,7 @@
 		files.on('data', (entry) => {
 				//console.log(entry)
 				const fullPath = entry.fullPath;
-				var key = config.prefix + entry.path.replace(/\\/g,'/')
+				var key = config.prefix + entry.path.replace(/\\/g, '/')
 				var options = {
 					scope: `${config.bucket}:${key}`
 				};
@@ -101,26 +101,24 @@
 				executeDfd.reject();
 			})
 			.on('end', () => {
+				var cdnManager = new qiniu.cdn.CdnManager(mac);
+
+
+				var dirsToRefresh = [config.content_url];
+				//刷新cdn
+				cdnManager.refreshDirs(dirsToRefresh, function(err, respBody, respInfo) {
+				  if (err) {
+				    throw err;
+				  }
+				  console.log(respInfo.statusCode);
+				  if (respInfo.statusCode == 200) {
+				    console.log("refreash cdn success");
+				  }
+				});
+				
 				console.log("Deploy done");
 				executeDfd.resolve();
 			});
-
-
-
-
-		formUploader.putStream(uploadToken, key, readableStream, putExtra, function(respErr,
-			respBody, respInfo) {
-			if (respErr) {
-				throw respErr;
-			}
-			if (respInfo.statusCode == 200) {
-				console.log(respBody);
-			} else {
-				console.log(respInfo.statusCode);
-				console.log(respBody);
-			}
-		});
-		files.pipe()
 
 		return executeDfd.promise;
 	}
