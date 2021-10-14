@@ -1,0 +1,9 @@
+{
+  "name": "IMApp",
+  "bucket": "evdou",
+  "prefix": "release/app/cross-platform/hotcodepush/",
+  "ios_identifier": "",
+  "android_identifier": "",
+  "update": "resume",
+  "content_url": "https://img.cdn.scevdou.com/release/app/cross-platform/hotcodepush/"
+}
