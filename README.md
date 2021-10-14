@@ -31,12 +31,12 @@ Main features are:
 
 You can install CLI client using `npm install` (current stable 1.1.1):
 ```sh
-npm install -g cordova-hot-code-push-cli
+npm install -g cordova-hot-code-push-cli-qiniu
 ```
 
 It is also possible to install via repo url directly (__unstable__):
 ```sh
-npm install -g https://github.com/nordnet/cordova-hot-code-push-cli.git
+npm install -g https://github.com/liyuanlin/cordova-hot-code-push-cli-qiniu.git
 ```
 
 ### How to use
